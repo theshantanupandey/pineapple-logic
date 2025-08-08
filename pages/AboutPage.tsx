@@ -1,5 +1,5 @@
 import { About } from "../components/About";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Card } from "../components/ui/card";
 
 export function AboutPage() {

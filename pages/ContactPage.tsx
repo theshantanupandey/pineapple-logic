@@ -1,5 +1,5 @@
 import { Contact } from "../components/Contact";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Card } from "../components/ui/card";
 
 export function ContactPage() {

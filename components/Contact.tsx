@@ -5,7 +5,7 @@ import { Textarea } from "./ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useState } from "react";
 
 export function Contact() {
@@ -24,6 +24,7 @@ export function Contact() {
   });
   
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const services = [
     "Mobile App Development",
@@ -66,27 +67,38 @@ export function Contact() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // This will be enhanced with Supabase integration
+    setIsSubmitting(true);
+    
+    // Simulate form submission
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
     console.log("Consultation form submitted:", formData);
+    setIsSubmitting(false);
+    
+    // Reset form or show success message
+    // setFormData(initialState);
   };
 
   const contactMethods = [
     {
       title: "Email Us",
       value: "hello@pineapplelogic.com",
-      icon: "📧"
+      icon: "📧",
+      gradient: "from-blue-500 to-cyan-500"
     },
     {
       title: "Call Us",
       value: "+1 (555) 123-4567",
-      icon: "📞"
+      icon: "📞",
+      gradient: "from-green-500 to-emerald-500"
     },
     {
       title: "Visit Us",
       value: "San Francisco, CA",
-      icon: "📍"
+      icon: "📍",
+      gradient: "from-purple-500 to-pink-500"
     }
   ];
 
@@ -121,11 +133,18 @@ export function Contact() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
+          <motion.span 
+            className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium border border-primary/20 shadow-sm mb-6"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+          >
+            🚀 Let's Work Together
+          </motion.span>
           <h2 className="text-3xl md:text-4xl font-medium mb-4">
             Start Your Digital Transformation
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Let's discuss your project in detail. The more information you provide, the better we can understand your needs and provide a tailored solution.
+            Tell us about your vision and we'll help make it reality through logical innovation and creative excellence.
           </p>
         </motion.div>
         
@@ -142,18 +161,32 @@ export function Contact() {
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <Card className="p-6 text-center border-2 border-dashed border-border hover:border-primary/50 hover:shadow-lg transition-all duration-300 group">
-                  <motion.div 
-                    className="w-12 h-12 bg-primary/10 rounded-lg mx-auto mb-4 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300 text-xl"
-                    whileHover={{ rotate: 360, scale: 1.1 }}
+                <Card className="p-6 text-center border-2 border-dashed border-border hover:border-primary/50 hover:shadow-lg transition-all duration-300 group relative overflow-hidden">
+                  {/* Animated background */}
+                  <motion.div
+                    className={`absolute inset-0 bg-gradient-to-br ${method.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                    initial={{ scale: 0, rotate: -45 }}
+                    whileHover={{ scale: 1.5, rotate: 0 }}
                     transition={{ duration: 0.6 }}
-                  >
-                    {method.icon}
-                  </motion.div>
-                  <h3 className="font-medium mb-2 group-hover:text-primary transition-colors duration-300">
-                    {method.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm">{method.value}</p>
+                  />
+                  
+                  <div className="relative z-10">
+                    <motion.div 
+                      className={`w-16 h-16 bg-gradient-to-br ${method.gradient} rounded-2xl mx-auto mb-4 flex items-center justify-center text-2xl shadow-lg group-hover:shadow-xl transition-all duration-300`}
+                      whileHover={{ 
+                        rotate: 360, 
+                        scale: 1.1,
+                        boxShadow: "0 20px 40px rgba(0,0,0,0.2)"
+                      }}
+                      transition={{ duration: 0.6 }}
+                    >
+                      {method.icon}
+                    </motion.div>
+                    <h3 className="font-medium mb-2 group-hover:text-primary transition-colors duration-300">
+                      {method.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm">{method.value}</p>
+                  </div>
                 </Card>
               </motion.div>
             </motion.div>
@@ -167,28 +200,51 @@ export function Contact() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <Card className="p-8 border-2 border-dashed border-border hover:border-primary/30 transition-colors duration-500">
+          <Card className="p-8 md:p-12 border-2 border-dashed border-border hover:border-primary/30 transition-colors duration-500 bg-background/80 backdrop-blur-sm relative overflow-hidden">
+            {/* Animated background gradient */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 hover:opacity-100 transition-opacity duration-500"
+              initial={{ rotate: -45, scale: 0 }}
+              whileHover={{ rotate: 0, scale: 1.5 }}
+              transition={{ duration: 0.8 }}
+            />
+            
             <motion.form 
               onSubmit={handleSubmit}
-              className="space-y-6"
+              className="space-y-8 relative z-10"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-medium mb-2">Free Consultation Request</h3>
+                <h3 className="text-2xl md:text-3xl font-medium mb-3">Free Consultation Request</h3>
                 <p className="text-muted-foreground">Tell us about your vision and we'll help make it reality</p>
               </div>
               
               {/* Personal Information */}
-              <div className="space-y-4">
-                <h4 className="font-medium text-lg border-b border-border pb-2">Contact Information</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <motion.div 
+                className="space-y-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <span className="text-primary text-sm">👤</span>
+                  </div>
+                  <h4 className="text-lg font-medium">Contact Information</h4>
+                  <div className="flex-1 h-px bg-border"></div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <motion.div
                     animate={{ scale: focusedField === 'firstName' ? 1.02 : 1 }}
                     transition={{ duration: 0.2 }}
+                    className="space-y-3"
                   >
-                    <Label htmlFor="firstName">First Name *</Label>
+                    <Label htmlFor="firstName" className="text-sm font-medium">
+                      First Name *
+                    </Label>
                     <Input
                       id="firstName"
                       placeholder="John"
@@ -196,7 +252,7 @@ export function Contact() {
                       onChange={(e) => handleInputChange('firstName', e.target.value)}
                       onFocus={() => setFocusedField('firstName')}
                       onBlur={() => setFocusedField(null)}
-                      className="transition-all duration-300 focus:scale-105"
+                      className="transition-all duration-300 focus:scale-105 focus:shadow-lg border-2 focus:border-primary/50"
                       required
                     />
                   </motion.div>
@@ -204,8 +260,11 @@ export function Contact() {
                   <motion.div
                     animate={{ scale: focusedField === 'lastName' ? 1.02 : 1 }}
                     transition={{ duration: 0.2 }}
+                    className="space-y-3"
                   >
-                    <Label htmlFor="lastName">Last Name *</Label>
+                    <Label htmlFor="lastName" className="text-sm font-medium">
+                      Last Name *
+                    </Label>
                     <Input
                       id="lastName"
                       placeholder="Doe"
@@ -213,18 +272,21 @@ export function Contact() {
                       onChange={(e) => handleInputChange('lastName', e.target.value)}
                       onFocus={() => setFocusedField('lastName')}
                       onBlur={() => setFocusedField(null)}
-                      className="transition-all duration-300 focus:scale-105"
+                      className="transition-all duration-300 focus:scale-105 focus:shadow-lg border-2 focus:border-primary/50"
                       required
                     />
                   </motion.div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <motion.div
                     animate={{ scale: focusedField === 'email' ? 1.02 : 1 }}
                     transition={{ duration: 0.2 }}
+                    className="space-y-3"
                   >
-                    <Label htmlFor="email">Email Address *</Label>
+                    <Label htmlFor="email" className="text-sm font-medium">
+                      Email Address *
+                    </Label>
                     <Input
                       id="email"
                       type="email"
@@ -233,7 +295,7 @@ export function Contact() {
                       onChange={(e) => handleInputChange('email', e.target.value)}
                       onFocus={() => setFocusedField('email')}
                       onBlur={() => setFocusedField(null)}
-                      className="transition-all duration-300 focus:scale-105"
+                      className="transition-all duration-300 focus:scale-105 focus:shadow-lg border-2 focus:border-primary/50"
                       required
                     />
                   </motion.div>
@@ -241,8 +303,11 @@ export function Contact() {
                   <motion.div
                     animate={{ scale: focusedField === 'phone' ? 1.02 : 1 }}
                     transition={{ duration: 0.2 }}
+                    className="space-y-3"
                   >
-                    <Label htmlFor="phone">Phone Number</Label>
+                    <Label htmlFor="phone" className="text-sm font-medium">
+                      Phone Number
+                    </Label>
                     <Input
                       id="phone"
                       type="tel"
@@ -251,17 +316,20 @@ export function Contact() {
                       onChange={(e) => handleInputChange('phone', e.target.value)}
                       onFocus={() => setFocusedField('phone')}
                       onBlur={() => setFocusedField(null)}
-                      className="transition-all duration-300 focus:scale-105"
+                      className="transition-all duration-300 focus:scale-105 focus:shadow-lg border-2 focus:border-primary/50"
                     />
                   </motion.div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <motion.div
                     animate={{ scale: focusedField === 'company' ? 1.02 : 1 }}
                     transition={{ duration: 0.2 }}
+                    className="space-y-3"
                   >
-                    <Label htmlFor="company">Company Name *</Label>
+                    <Label htmlFor="company" className="text-sm font-medium">
+                      Company Name *
+                    </Label>
                     <Input
                       id="company"
                       placeholder="Your Company Inc."
@@ -269,7 +337,7 @@ export function Contact() {
                       onChange={(e) => handleInputChange('company', e.target.value)}
                       onFocus={() => setFocusedField('company')}
                       onBlur={() => setFocusedField(null)}
-                      className="transition-all duration-300 focus:scale-105"
+                      className="transition-all duration-300 focus:scale-105 focus:shadow-lg border-2 focus:border-primary/50"
                       required
                     />
                   </motion.div>
@@ -277,8 +345,11 @@ export function Contact() {
                   <motion.div
                     animate={{ scale: focusedField === 'website' ? 1.02 : 1 }}
                     transition={{ duration: 0.2 }}
+                    className="space-y-3"
                   >
-                    <Label htmlFor="website">Current Website (if any)</Label>
+                    <Label htmlFor="website" className="text-sm font-medium">
+                      Current Website (if any)
+                    </Label>
                     <Input
                       id="website"
                       placeholder="https://yourcompany.com"
@@ -286,21 +357,32 @@ export function Contact() {
                       onChange={(e) => handleInputChange('website', e.target.value)}
                       onFocus={() => setFocusedField('website')}
                       onBlur={() => setFocusedField(null)}
-                      className="transition-all duration-300 focus:scale-105"
+                      className="transition-all duration-300 focus:scale-105 focus:shadow-lg border-2 focus:border-primary/50"
                     />
                   </motion.div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Project Information */}
-              <div className="space-y-4">
-                <h4 className="font-medium text-lg border-b border-border pb-2">Project Information</h4>
+              <motion.div 
+                className="space-y-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <span className="text-primary text-sm">💼</span>
+                  </div>
+                  <h4 className="text-lg font-medium">Project Information</h4>
+                  <div className="flex-1 h-px bg-border"></div>
+                </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label>Project Type *</Label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-3">
+                    <Label className="text-sm font-medium">Project Type *</Label>
                     <Select value={formData.projectType} onValueChange={(value) => handleInputChange('projectType', value)}>
-                      <SelectTrigger>
+                      <SelectTrigger className="border-2 focus:border-primary/50 transition-all duration-300">
                         <SelectValue placeholder="Select project type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -313,10 +395,10 @@ export function Contact() {
                     </Select>
                   </div>
 
-                  <div>
-                    <Label>Budget Range *</Label>
+                  <div className="space-y-3">
+                    <Label className="text-sm font-medium">Budget Range *</Label>
                     <Select value={formData.budget} onValueChange={(value) => handleInputChange('budget', value)}>
-                      <SelectTrigger>
+                      <SelectTrigger className="border-2 focus:border-primary/50 transition-all duration-300">
                         <SelectValue placeholder="Select budget range" />
                       </SelectTrigger>
                       <SelectContent>
@@ -328,10 +410,10 @@ export function Contact() {
                   </div>
                 </div>
 
-                <div>
-                  <Label>Timeline *</Label>
+                <div className="space-y-3">
+                  <Label className="text-sm font-medium">Timeline *</Label>
                   <Select value={formData.timeline} onValueChange={(value) => handleInputChange('timeline', value)}>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-2 focus:border-primary/50 transition-all duration-300">
                       <SelectValue placeholder="When do you need this completed?" />
                     </SelectTrigger>
                     <SelectContent>
@@ -342,20 +424,30 @@ export function Contact() {
                   </Select>
                 </div>
 
-                <div>
-                  <Label>Services Needed * (Select all that apply)</Label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                <div className="space-y-4">
+                  <Label className="text-sm font-medium">Services Needed * (Select all that apply)</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {services.map((service) => (
-                      <div key={service} className="flex items-center space-x-2">
+                      <motion.div 
+                        key={service} 
+                        className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:border-primary/30 hover:bg-primary/5 transition-all duration-300 group cursor-pointer"
+                        onClick={() => handleServiceToggle(service)}
+                        whileHover={{ scale: 1.02, x: 5 }}
+                        transition={{ duration: 0.2 }}
+                      >
                         <Checkbox 
                           id={service}
                           checked={formData.services.includes(service)}
                           onCheckedChange={() => handleServiceToggle(service)}
+                          className="transition-all duration-300"
                         />
-                        <Label htmlFor={service} className="text-sm cursor-pointer">
+                        <Label 
+                          htmlFor={service} 
+                          className="text-sm cursor-pointer group-hover:text-primary transition-colors duration-300 flex-1"
+                        >
                           {service}
                         </Label>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 </div>
@@ -363,42 +455,78 @@ export function Contact() {
                 <motion.div
                   animate={{ scale: focusedField === 'projectDescription' ? 1.02 : 1 }}
                   transition={{ duration: 0.2 }}
+                  className="space-y-3"
                 >
-                  <Label htmlFor="projectDescription">Project Description *</Label>
+                  <Label htmlFor="projectDescription" className="text-sm font-medium">
+                    Project Description *
+                  </Label>
                   <Textarea
                     id="projectDescription"
-                    placeholder="Describe your project in detail. What are you looking to build or improve?"
+                    placeholder="Describe your project in detail. What are you looking to build or improve? What are your main goals and challenges?"
                     value={formData.projectDescription}
                     onChange={(e) => handleInputChange('projectDescription', e.target.value)}
                     onFocus={() => setFocusedField('projectDescription')}
                     onBlur={() => setFocusedField(null)}
-                    className="min-h-[120px] transition-all duration-300 focus:scale-105 resize-none"
+                    className="min-h-[140px] transition-all duration-300 focus:scale-105 focus:shadow-lg resize-none border-2 focus:border-primary/50"
                     required
                   />
                 </motion.div>
-              </div>
+              </motion.div>
               
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="pt-4"
+                className="pt-6"
               >
-                <Button type="submit" className="w-full" size="lg">
-                  Submit Consultation Request
+                <Button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="w-full py-6 text-lg bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden group"
+                  size="lg"
+                >
+                  <motion.span className="relative z-10 flex items-center justify-center gap-3">
+                    {isSubmitting ? (
+                      <>
+                        <motion.div
+                          className="w-5 h-5 border-2 border-primary-foreground border-t-transparent rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        />
+                        Submitting Request...
+                      </>
+                    ) : (
+                      <>
+                        Submit Consultation Request
+                        <motion.span
+                          animate={{ x: [0, 5, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        >
+                          →
+                        </motion.span>
+                      </>
+                    )}
+                  </motion.span>
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.6 }}
+                  />
                 </Button>
               </motion.div>
               
               <motion.div 
-                className="text-center space-y-2"
+                className="text-center space-y-3 pt-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
               >
-                <p className="text-xs text-muted-foreground">
+                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                  <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                   We'll review your request and get back to you within 24 hours
-                </p>
+                </div>
                 <p className="text-xs text-muted-foreground">
-                  All consultations are confidential and there's no obligation to proceed
+                  🔒 All consultations are confidential and there's no obligation to proceed
                 </p>
               </motion.div>
             </motion.form>
