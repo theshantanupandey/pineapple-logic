@@ -1,5 +1,5 @@
 import { Card } from "./ui/card";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 export function Services() {
   const services = [
