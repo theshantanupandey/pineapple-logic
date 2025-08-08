@@ -10,7 +10,7 @@ import { NotFoundPage } from "./pages/NotFoundPage";
 import { PrivacyPage } from "./pages/PrivacyPage";
 import { TermsPage } from "./pages/TermsPage";
 import { CookiePage } from "./pages/CookiePage";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { useState, useEffect } from "react";
 
 export default function App() {
@@ -65,8 +65,8 @@ export default function App() {
   };
 
   const pageTransition = {
-    type: "tween",
-    ease: "anticipate",
+    // Remove the type property as it's causing issues
+    ease: easeInOut,
     duration: 0.6
   };
 
@@ -76,7 +76,7 @@ export default function App() {
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: "backOut" }}
+          transition={{ duration: 0.6, ease: easeInOut }}
           className="text-center"
         >
           <motion.div

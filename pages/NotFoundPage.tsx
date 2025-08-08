@@ -1,6 +1,6 @@
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 interface NotFoundPageProps {

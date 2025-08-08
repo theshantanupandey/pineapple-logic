@@ -1,6 +1,6 @@
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 export function Portfolio() {
   const projects = [

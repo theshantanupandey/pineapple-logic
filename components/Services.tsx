@@ -1,6 +1,6 @@
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
-import { motion } from "motion/react";
+import { motion, easeOut } from "framer-motion";
 import { useState } from "react";
 
 export function Services() {
@@ -76,6 +76,7 @@ export function Services() {
     }
   };
 
+  // Define variants without transition in the target state
   const itemVariants = {
     hidden: { 
       opacity: 0, 
@@ -85,12 +86,14 @@ export function Services() {
     visible: {
       opacity: 1,
       y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut"
-      }
+      scale: 1
     }
+  };
+  
+  // Define transition separately
+  const itemTransition = {
+    duration: 0.6,
+    ease: easeOut
   };
 
   return (
@@ -168,6 +171,7 @@ export function Services() {
             <motion.div 
               key={index} 
               variants={itemVariants}
+              transition={itemTransition}
               onHoverStart={() => setHoveredIndex(index)}
               onHoverEnd={() => setHoveredIndex(null)}
             >

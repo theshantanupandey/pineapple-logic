@@ -5,7 +5,7 @@ import { Textarea } from "./ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { useState } from "react";
 
 export function Contact() {
@@ -381,7 +381,7 @@ export function Contact() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
                     <Label className="text-sm font-medium">Project Type *</Label>
-                    <Select value={formData.projectType} onValueChange={(value) => handleInputChange('projectType', value)}>
+                    <Select value={formData.projectType} onValueChange={(value: string) => handleInputChange('projectType', value)}>
                       <SelectTrigger className="border-2 focus:border-primary/50 transition-all duration-300">
                         <SelectValue placeholder="Select project type" />
                       </SelectTrigger>
@@ -397,7 +397,7 @@ export function Contact() {
 
                   <div className="space-y-3">
                     <Label className="text-sm font-medium">Budget Range *</Label>
-                    <Select value={formData.budget} onValueChange={(value) => handleInputChange('budget', value)}>
+                    <Select value={formData.budget} onValueChange={(value: string) => handleInputChange('budget', value)}>
                       <SelectTrigger className="border-2 focus:border-primary/50 transition-all duration-300">
                         <SelectValue placeholder="Select budget range" />
                       </SelectTrigger>
@@ -412,7 +412,7 @@ export function Contact() {
 
                 <div className="space-y-3">
                   <Label className="text-sm font-medium">Timeline *</Label>
-                  <Select value={formData.timeline} onValueChange={(value) => handleInputChange('timeline', value)}>
+                  <Select value={formData.timeline} onValueChange={(value: string) => handleInputChange('timeline', value)}>
                     <SelectTrigger className="border-2 focus:border-primary/50 transition-all duration-300">
                       <SelectValue placeholder="When do you need this completed?" />
                     </SelectTrigger>

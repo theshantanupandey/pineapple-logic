@@ -1,6 +1,6 @@
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 export function Hero() {

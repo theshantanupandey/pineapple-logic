@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Switch } from "../components/ui/switch";
@@ -189,7 +189,7 @@ export function CookiePage({ navigate }: CookiePageProps) {
                       >
                         <Switch
                           checked={cookiePreferences[cookie.key]}
-                          onCheckedChange={(checked) => handlePreferenceChange(cookie.key, checked)}
+                          onCheckedChange={(checked: boolean) => handlePreferenceChange(cookie.key, checked)}
                           disabled={cookie.required}
                         />
                       </motion.div>

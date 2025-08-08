@@ -1,5 +1,5 @@
 import { Button } from "./ui/button";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 interface HeaderProps {
